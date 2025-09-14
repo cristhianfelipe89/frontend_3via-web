@@ -5,26 +5,30 @@ function UsersTable() {
     const [users, setUsers] = useState([]);
 
     useEffect(() => {
-        const fetchUsers = async () => {
-            try {
-                const res = await api.get("/users");
-                setUsers(res.data);
-            } catch (err) {
-                console.error("Error al cargar usuarios", err);
-            }
-        };
-        fetchUsers();
+        loadUsers();
     }, []);
+
+    const loadUsers = async () => {
+        const res = await api.get("/users");
+        setUsers(res.data);
+    };
+
+    const toggleRole = async (id, currentRole) => {
+        const newRole = currentRole === "admin" ? "player" : "admin";
+        await api.patch(`/users/${id}`, { role: newRole });
+        loadUsers();
+    };
 
     return (
         <div>
-            <h3>Usuarios registrados</h3>
-            <table border="1" cellPadding="10" style={{ width: "100%" }}>
+            <h2>👥 Gestión de Usuarios</h2>
+            <table>
                 <thead>
                     <tr>
                         <th>Nombre</th>
                         <th>Email</th>
                         <th>Rol</th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -33,6 +37,11 @@ function UsersTable() {
                             <td>{u.name}</td>
                             <td>{u.email}</td>
                             <td>{u.role}</td>
+                            <td>
+                                <button onClick={() => toggleRole(u._id, u.role)}>
+                                    Cambiar Rol
+                                </button>
+                            </td>
                         </tr>
                     ))}
                 </tbody>
