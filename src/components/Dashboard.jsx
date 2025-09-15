@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import api from "../services/api";
+import "./Dashboard.css";
+
 import {
     BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid,
     PieChart, Pie, Cell, Legend
@@ -30,8 +32,8 @@ function Dashboard({ user, onLogout }) {
                 <button onClick={() => setSection("stats")}>📊 Estadísticas</button>
                 <button onClick={() => setSection("users")}>👥 Usuarios</button>
                 <button onClick={() => setSection("questions")}>❓ Preguntas</button>
-            </nav>
-
+            </nav> 
+            
             <main>
                 {section === "stats" && stats && (
                     <div>
