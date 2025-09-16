@@ -13,12 +13,6 @@ function UsersTable() {
         setUsers(res.data);
     };
 
-    const toggleRole = async (id, currentRole) => {
-        const newRole = currentRole === "admin" ? "player" : "admin";
-        await api.patch(`/users/${id}`, { role: newRole });
-        loadUsers();
-    };
-
     return (
         <div>
             <h2>👥 Gestión de Usuarios</h2>
@@ -26,22 +20,20 @@ function UsersTable() {
                 <thead>
                     <tr>
                         <th>Nombre</th>
+                        <th>Usuario</th>
                         <th>Email</th>
                         <th>Rol</th>
-                        <th>Acciones</th>
+                        <th>Fecha Registro</th>
                     </tr>
                 </thead>
                 <tbody>
                     {users.map((u) => (
                         <tr key={u._id}>
                             <td>{u.name}</td>
+                            <td>{u.username}</td>
                             <td>{u.email}</td>
                             <td>{u.role}</td>
-                            <td>
-                                <button onClick={() => toggleRole(u._id, u.role)}>
-                                    Cambiar Rol
-                                </button>
-                            </td>
+                            <td>{new Date(u.createdAt).toLocaleDateString()}</td>
                         </tr>
                     ))}
                 </tbody>

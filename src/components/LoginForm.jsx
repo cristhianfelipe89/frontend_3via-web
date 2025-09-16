@@ -16,7 +16,8 @@ function LoginForm({ onLogin }) {
         alert("Acceso denegado, solo administradores");
         return;
       }
-      onLogin(res.data.user);
+      const { token, user } = res.data;
+      onLogin({ ...user, token });
       navigate("/dashboard"); // 👈 redirige después de login
     } catch (err) {
       alert("Error en credenciales");

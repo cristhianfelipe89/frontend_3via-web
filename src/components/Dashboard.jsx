@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import api from "../services/api";
 import "./Dashboard.css";
+import UsersTable from "./UsersTable";
+import QuestionsTable from "./QuestionsTable";
 
 import {
     BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid,
@@ -43,7 +45,7 @@ function Dashboard({ user, onLogout }) {
                         <h3>🏆 Top ganadores</h3>
                         <BarChart width={600} height={300} data={stats.winners}>
                             <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis dataKey="_id" />
+                            <XAxis dataKey="user" />
                             <YAxis />
                             <Tooltip />
                             <Bar dataKey="wins" fill="#8884d8" />
@@ -74,8 +76,8 @@ function Dashboard({ user, onLogout }) {
                     </div>
                 )}
 
-                {section === "users" && <p>Aquí va la tabla de usuarios 👥</p>}
-                {section === "questions" && <p>Aquí va la gestión de preguntas ❓</p>}
+                {section === "users" && <UsersTable />}
+                {section === "questions" && <QuestionsTable />}
             </main>
         </div>
     );
