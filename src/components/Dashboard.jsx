@@ -3,10 +3,14 @@ import api from "../services/api";
 import "./Dashboard.css";
 import UsersTable from "./UsersTable";
 import QuestionsTable from "./QuestionsTable";
+import Podium from "./Podium"; // 👈 nuestro componente para top ganadores
 
 import {
-    BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid,
-    PieChart, Pie, Cell, Legend
+    PieChart,
+    Pie,
+    Cell,
+    Tooltip,
+    Legend
 } from "recharts";
 
 function Dashboard({ user, onLogout }) {
@@ -18,8 +22,12 @@ function Dashboard({ user, onLogout }) {
     }, [section]);
 
     const loadStats = async () => {
-        const res = await api.get("/stats/overview");
-        setStats(res.data);
+        try {
+            const res = await api.get("/stats/overview");
+            setStats(res.data);
+        } catch (err) {
+            console.error(err);
+        }
     };
 
     return (
@@ -34,8 +42,8 @@ function Dashboard({ user, onLogout }) {
                 <button onClick={() => setSection("stats")}>📊 Estadísticas</button>
                 <button onClick={() => setSection("users")}>👥 Usuarios</button>
                 <button onClick={() => setSection("questions")}>❓ Preguntas</button>
-            </nav> 
-            
+            </nav>
+
             <main>
                 {section === "stats" && stats && (
                     <div>
@@ -43,13 +51,8 @@ function Dashboard({ user, onLogout }) {
                         <p>Total de partidas jugadas: {stats.played}</p>
 
                         <h3>🏆 Top ganadores</h3>
-                        <BarChart width={600} height={300} data={stats.winners}>
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis dataKey="user" />
-                            <YAxis />
-                            <Tooltip />
-                            <Bar dataKey="wins" fill="#8884d8" />
-                        </BarChart>
+                        {/* Podium para top5 */}
+                        <Podium />
 
                         <h3>📚 Categorías más acertadas</h3>
                         <PieChart width={400} height={400}>
@@ -66,7 +69,15 @@ function Dashboard({ user, onLogout }) {
                                 {stats.categories.map((entry, index) => (
                                     <Cell
                                         key={`cell-${index}`}
-                                        fill={["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#AA66CC"][index % 5]}
+                                        fill={
+                                            [
+                                                "#0088FE",
+                                                "#00C49F",
+                                                "#FFBB28",
+                                                "#FF8042",
+                                                "#AA66CC"
+                                            ][index % 5]
+                                        }
                                     />
                                 ))}
                             </Pie>

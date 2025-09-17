@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import api from "../services/api";
+import "./UsersTable.css";
 
 function UsersTable() {
     const [users, setUsers] = useState([]);
@@ -9,35 +10,39 @@ function UsersTable() {
     }, []);
 
     const loadUsers = async () => {
-        const res = await api.get("/users");
-        setUsers(res.data);
+        try {
+            const res = await api.get("/users");
+            setUsers(res.data);
+        } catch (err) {
+            console.error(err);
+        }
     };
 
     return (
-        <div>
-            <h2>👥 Gestión de Usuarios</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Usuario</th>
-                        <th>Email</th>
-                        <th>Rol</th>
-                        <th>Fecha Registro</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {users.map((u) => (
-                        <tr key={u._id}>
-                            <td>{u.name}</td>
-                            <td>{u.username}</td>
-                            <td>{u.email}</td>
-                            <td>{u.role}</td>
-                            <td>{new Date(u.createdAt).toLocaleDateString()}</td>
+        <div className="users-container">
+            <h2>👥 Usuarios</h2>
+            <div className="users-table-wrapper">
+                <table className="users-table">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Usuario</th>
+                            <th>Email</th>
+                            <th>Rol</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {users.map((u) => (
+                            <tr key={u._id}>
+                                <td>{u.name}</td>
+                                <td>{u.username}</td>
+                                <td>{u.email}</td>
+                                <td>{u.role}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 }

@@ -1,0 +1,25 @@
+.questions-import {
+    margin-bottom: 1rem;
+}
+
+.questions-import input[type="file"] {
+    margin-right: 0.5rem;
+}
+
+.questions-import button {
+    padding: 0.4rem 0.8rem;
+    background: #4a90e2;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.questions-import button:hover {
+    background: #357ac9;
+}
+
+.questions-import p {
+    margin-top: 0.5rem;
+    color: #333;
+}

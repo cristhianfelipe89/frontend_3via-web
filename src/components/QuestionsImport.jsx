@@ -1,29 +1,40 @@
 import React, { useState } from "react";
 import api from "../services/api";
+import "./QuestionsImport.css";
 
-function QuestionsImport() {
+function QuestionsImport({ onImported }) {
     const [file, setFile] = useState(null);
+    const [status, setStatus] = useState("");
+
+    const handleFileChange = (e) => {
+        setFile(e.target.files[0]);
+        setStatus("");
+    };
 
     const handleImport = async () => {
-        if (!file) return alert("Selecciona un archivo JSON");
-
-        const text = await file.text();
+        if (!file) {
+            setStatus("Selecciona un archivo primero");
+            return;
+        }
         try {
-            const questions = JSON.parse(text);
-            for (let q of questions) {
-                await api.post("/questions", q);
-            }
-            alert("Preguntas importadas correctamente");
+            const text = await file.text();
+            const data = JSON.parse(text);
+            await api.post("/questions/bulk", data);
+            setStatus("Preguntas importadas correctamente ✅");
+            setFile(null);
+            if (onImported) onImported();
         } catch (err) {
-            alert("Error en formato JSON");
+            console.error(err);
+            setStatus("Error al importar archivo ❌");
         }
     };
 
     return (
-        <div>
-            <h3>📥 Importar Preguntas JSON</h3>
-            <input type="file" accept=".json" onChange={(e) => setFile(e.target.files[0])} />
+        <div className="questions-import">
+            <h3>📥 Importar preguntas (JSON)</h3>
+            <input type="file" accept=".json" onChange={handleFileChange} />
             <button onClick={handleImport}>Importar</button>
+            {status && <p>{status}</p>}
         </div>
     );
 }

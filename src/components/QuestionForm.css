@@ -1,0 +1,46 @@
+.question-form-container {
+    background: #f9f9f9;
+    padding: 1rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    margin-bottom: 1rem;
+}
+
+.question-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.question-form label {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.9rem;
+}
+
+.question-form input,
+.question-form select {
+    padding: 0.4rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+.submit-button {
+    padding: 0.5rem 1rem;
+    background: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 0.5rem;
+}
+
+.submit-button:hover {
+    background: #357ac9;
+}
+
+.status-message {
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
