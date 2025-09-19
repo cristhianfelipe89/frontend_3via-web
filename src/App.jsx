@@ -38,7 +38,7 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route path="*" element={<Navigate to={user ? "/dashboard" : "/login"} />} />
+        <Route path="*" element={<Navigate to={user ?  "/login":"/dashboard" } />} />
       </Routes>
     </Router>
   );
